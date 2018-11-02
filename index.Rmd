@@ -1,14 +1,27 @@
 ---
 title: "Rachel Tsong"
 ---
+
 MS Biostatistics Candidate   
 Columbia University Mailman School of Public Health
 
-<img src="images/IMG_4553.jpg" style="width:75%">
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>
+</head>
+<body>
+
+<img src="images/IMG_4553.jpg" style="width:50%">
 
 ### About Me
-
-In 2014, I received a BS in Ecology and Evolutionary Biology and a BS in Environmental Science from the University of Arizona. After working as an ecological research assistant in the Rocky Mountains and coastal rainforests of Ecuador and snowboard-bumming in Denver, I decided to channel my passion for science into pursuing an MS in Biostatistics at Columbia University. You can see examples of what I've learned so far [here](flexdashboard.html)!
+In 2014, I received a BS in Ecology and Evolutionary Biology and a BS in Environmental Science from the University of Arizona. I am currently channeling my passion for science into pursuing an MS in Biostatistics at Columbia University. While in school, I made this [interactive graphic](flexdashboard.html) using data from NYC Restaurant Inspections!
 
 
 
