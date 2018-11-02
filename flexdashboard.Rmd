@@ -19,13 +19,16 @@ Column {data-width=650}
 library(p8105.datasets)
 library(tidyverse)
 library(plotly)
+library(lubridate)
 
+## Select only variables of interest, make dates easier to with, fix cuisine names
 inspection_data = rest_inspec %>%
   select(boro, score, critical_flag, cuisine_description, grade, inspection_date) %>%
   mutate(inspection_date = as.Date(inspection_date)) %>%
   mutate(cuisine_description = recode(cuisine_description, "CafÃ©/Coffee/Tea" = "Cafe", "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" = "Latin"))
 
-library(lubridate)
+
+## Select only data from 2014 onward, filter out NA for critical flag, make scatter plot showing number of violations over time
 inspection_data %>%
   filter(inspection_date > "2014-01-01") %>%
   filter(critical_flag != "Not Applicable") %>%
@@ -41,6 +44,7 @@ Column {data-width=350}
 ### Restaurant Grades by Borough
 
 ```{r}
+## Make a plot visualizing A,B,and C scores by boro
 inspection_data %>%
   filter(grade == "C" | grade == "B" | grade == "A") %>%
   filter(!boro == "Missing") %>%
@@ -53,11 +57,13 @@ inspection_data %>%
 ### Distribution of Violation Scores by Restaurant Type
 
 ```{r}
+## Determine top 8 cuisine types
 top_cuisine_type = 
   inspection_data %>%
   count(cuisine_description, sort = TRUE) %>% 
   top_n(8)
 
+## Make bloxplots showing distribution of restaurant scores for only top 8 cuisine types
 inner_join(inspection_data, top_cuisine_type, by = "cuisine_description") %>% 
   plot_ly(y = ~score, color = ~cuisine_description, type = "box",
           colors = "Set2") %>%
