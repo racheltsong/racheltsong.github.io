@@ -31,7 +31,8 @@ inspection_data %>%
   filter(critical_flag != "Not Applicable") %>%
   group_by(critical_flag, inspection_date = floor_date(inspection_date, "month")) %>%
   summarize(n = n()) %>%
-  plot_ly(x = ~inspection_date, y = ~n, color = ~critical_flag, type = "scatter", mode = "lines") 
+  plot_ly(x = ~inspection_date, y = ~n, color = ~critical_flag, type = "scatter", mode = "lines") %>%
+  layout(xaxis = list(title = "Inspection Date"), yaxis = list(title = "Violations"))
 ```
 
 Column {data-width=350}
@@ -46,7 +47,7 @@ inspection_data %>%
   group_by(boro, grade) %>%
   summarize(n = n()) %>%
   plot_ly(x = ~boro, y = ~n, color = ~grade, type = "bar") %>% 
-  layout(barmode = "stack")
+  layout(barmode = "stack", xaxis = list(title = "Borough"), yaxis = list(title = "Number"))
 ```
 
 ### Distribution of Violation Scores by Restaurant Type
@@ -59,7 +60,8 @@ top_cuisine_type =
 
 inner_join(inspection_data, top_cuisine_type, by = "cuisine_description") %>% 
   plot_ly(y = ~score, color = ~cuisine_description, type = "box",
-          colors = "Set2")
+          colors = "Set2") %>%
+  layout(xaxis = list(title = "Cuisine Type"), yaxis = list(title = "Score"))
   
 ```
 
