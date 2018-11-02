@@ -3,10 +3,12 @@ output_dir: "."
 navbar:
   title: "Rachel Tsong"
   left:
-    - text: "Home" 
+    - text: "Home"
       href: index.html
     - text: "Resume"
       href: resume.html
+    - text: "NYC Restaurant Inspection"  
+      href: flexdashboard.html
   right:      
     - icon: fa-envelope fa-lg
       href: mailto:<racheltsong@gmail.com>

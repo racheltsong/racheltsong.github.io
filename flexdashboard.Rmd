@@ -13,25 +13,54 @@ library(flexdashboard)
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Number of Critical and Non-Critical Violations Across Time
 
 ```{r}
+library(p8105.datasets)
+library(tidyverse)
+library(plotly)
 
+inspection_data = rest_inspec %>%
+  select(boro, score, critical_flag, cuisine_description, grade, inspection_date) %>%
+  mutate(inspection_date = as.Date(inspection_date)) %>%
+  mutate(cuisine_description = recode(cuisine_description, "CafÃ©/Coffee/Tea" = "Cafe", "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" = "Latin"))
+
+library(lubridate)
+inspection_data %>%
+  filter(inspection_date > "2014-01-01") %>%
+  filter(critical_flag != "Not Applicable") %>%
+  group_by(critical_flag, inspection_date = floor_date(inspection_date, "month")) %>%
+  summarize(n = n()) %>%
+  plot_ly(x = ~inspection_date, y = ~n, color = ~critical_flag, type = "scatter", mode = "lines") 
 ```
 
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Restaurant Grades by Borough
 
 ```{r}
-
+inspection_data %>%
+  filter(grade == "C" | grade == "B" | grade == "A") %>%
+  filter(!boro == "Missing") %>%
+  group_by(boro, grade) %>%
+  summarize(n = n()) %>%
+  plot_ly(x = ~boro, y = ~n, color = ~grade, type = "bar") %>% 
+  layout(barmode = "stack")
 ```
 
-### Chart C
+### Distribution of Violation Scores by Restaurant Type
 
 ```{r}
+top_cuisine_type = 
+  inspection_data %>%
+  count(cuisine_description, sort = TRUE) %>% 
+  top_n(8)
 
+inner_join(inspection_data, top_cuisine_type, by = "cuisine_description") %>% 
+  plot_ly(y = ~score, color = ~cuisine_description, type = "box",
+          colors = "Set2")
+  
 ```
 
 
