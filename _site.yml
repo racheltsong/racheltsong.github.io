@@ -1,12 +1,11 @@
 name: "my_website"
 output_dir: "."
 navbar:
-  title: "Rachel Tsong"
   left:
     - text: "Home"
       href: index.html
     - text: "Resume"
-      href: resume.html
+      href: ./documents/github_resume.pdf
     - text: "NYC Restaurant Inspection"  
       href: flexdashboard.html
   right:      
