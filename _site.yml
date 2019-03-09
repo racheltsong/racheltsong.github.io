@@ -5,7 +5,7 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Resume"
-      href: ./documents/github_resume.pdf
+      href: ./documents/Tsong_Resume_Jan19.pdf
     - text: "NYC Restaurant Inspection"  
       href: flexdashboard.html
   right:      
