@@ -5,12 +5,14 @@ navbar:
     - text: "Home"
       href: index.html
     - text: "Resume"
-      href: ./documents/Tsong_Resume_Jan19.pdf
-    - text: "NYC Restaurant Inspection"  
+      href: ./documents/rt_res.pdf
+    - text: "NYC Restaurant Inspections"  
       href: flexdashboard.html
   right:      
     - icon: fa-envelope fa-lg
       href: mailto:<racheltsong@gmail.com>
+    - icon: fa-linkedin fa-lg
+      href: http://www.linkedin.com/in/rachel-tsong/
     - icon: fa-github fa-lg
       href: http://github.com/racheltsong/
 output:
