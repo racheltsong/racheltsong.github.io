@@ -6,9 +6,10 @@ output:
     vertical_layout: fill
 ---
 
-```{r setup, include=FALSE}
-library(flexdashboard)
+```{r description, include=FALSE}
+# this R markdown files creates the graphics for my website dashboard
 ```
+
 
 Column {data-width=650}
 -----------------------------------------------------------------------
@@ -16,26 +17,42 @@ Column {data-width=650}
 ### Number of Critical and Non-Critical Violations Across Time
 
 ```{r}
+## libraries
+library(flexdashboard)
 library(p8105.datasets)
 library(tidyverse)
 library(plotly)
 library(lubridate)
 
-## Select only variables of interest, make dates easier to with, fix cuisine names
+## Select only variables of interest, make dates easier to work with, fix cuisine names
 inspection_data = rest_inspec %>%
-  select(boro, score, critical_flag, cuisine_description, grade, inspection_date) %>%
+  select(boro, 
+         score, 
+         critical_flag, 
+         cuisine_description, 
+         grade, 
+         inspection_date) %>%
   mutate(inspection_date = as.Date(inspection_date)) %>%
-  mutate(cuisine_description = recode(cuisine_description, "CafÃ©/Coffee/Tea" = "Cafe", "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" = "Latin"))
+  mutate(cuisine_description = 
+           recode(cuisine_description, 
+                  "CafÃ©/Coffee/Tea" = "Cafe", 
+                  "Latin (Cuban, Dominican, Puerto Rican, South & Central American)" = "Latin"))
 
 
 ## Select only data from 2014 onward, filter out NA for critical flag, make scatter plot showing number of violations over time
 inspection_data %>%
   filter(inspection_date > "2014-01-01") %>%
   filter(critical_flag != "Not Applicable") %>%
-  group_by(critical_flag, inspection_date = floor_date(inspection_date, "month")) %>%
+  group_by(critical_flag, 
+           inspection_date = floor_date(inspection_date, "month")) %>%
   summarize(n = n()) %>%
-  plot_ly(x = ~inspection_date, y = ~n, color = ~critical_flag, type = "scatter", mode = "lines") %>%
-  layout(xaxis = list(title = "Inspection Date"), yaxis = list(title = "Violations"))
+  plot_ly(x = ~inspection_date, 
+          y = ~n, 
+          color = ~critical_flag, 
+          type = "scatter", 
+          mode = "lines") %>%
+  layout(xaxis = list(title = "Inspection Date"), 
+         yaxis = list(title = "Violations"))
 ```
 
 Column {data-width=350}
@@ -50,8 +67,13 @@ inspection_data %>%
   filter(!boro == "Missing") %>%
   group_by(boro, grade) %>%
   summarize(n = n()) %>%
-  plot_ly(x = ~boro, y = ~n, color = ~grade, type = "bar") %>% 
-  layout(barmode = "stack", xaxis = list(title = "Borough"), yaxis = list(title = "Number"))
+  plot_ly(x = ~boro, 
+          y = ~n, 
+          color = ~grade, 
+          type = "bar") %>% 
+  layout(barmode = "stack", 
+         xaxis = list(title = "Borough"), 
+         yaxis = list(title = "Number"))
 ```
 
 ### Distribution of Violation Scores by Restaurant Type
@@ -64,11 +86,17 @@ top_cuisine_type =
   top_n(8)
 
 ## Make bloxplots showing distribution of restaurant scores for only top 8 cuisine types
-inner_join(inspection_data, top_cuisine_type, by = "cuisine_description") %>% 
-  plot_ly(y = ~score, color = ~cuisine_description, type = "box",
+inner_join(inspection_data, 
+           top_cuisine_type, 
+           by = "cuisine_description") %>% 
+  plot_ly(y = ~score, 
+          color = ~cuisine_description, 
+          type = "box",
           colors = "Set2") %>%
-  layout(xaxis = list(title = "Cuisine Type"), yaxis = list(title = "Score"))
+  layout(xaxis = list(title = "Cuisine Type"), 
+         yaxis = list(title = "Score"))
   
+
 ```
 
 
